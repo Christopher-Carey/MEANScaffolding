@@ -54,11 +54,15 @@
             shell.mkdir(dir + "/" + name + "/client")
             shell.mkdir(dir + "/" + name + "/client/views")
             shell.mkdir(dir + "/" + name + "/client/static")
+            //SERVER
             shell.mkdir(dir + "/" + name + "/server")
-            
             shell.mkdir(dir + "/" + name + "/server/config")
+            shell.mkdir(dir + "/" + name + "/server/controllers")
+            shell.mkdir(dir + "/" + name + "/server/models")
+            
             shell.cd(dir + "/" + name)
             shell.cp('-R', installed +'/app.js', dir + "/" + name);
+            shell.cp('-R', __dirname +'/app.js', dir + "/" + name);
             shell.cp('-R', installed +'/index.ejs', dir + "/" + name+"/views");
             shell.cp('-R', installed +'/style.css', dir + "/" + name+"/static");
             
