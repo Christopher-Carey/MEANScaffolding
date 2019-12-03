@@ -58,13 +58,17 @@
             shell.mkdir(dir + "/" + name + "/server")
             shell.mkdir(dir + "/" + name + "/server/config")
             shell.mkdir(dir + "/" + name + "/server/controllers")
-            shell.mkdir(dir + "/" + name + "/server/models")
+            // shell.mkdir(dir + "/" + name + "/server/models")
             
             shell.cd(dir + "/" + name)
-            shell.cp('-R', installed +'/app.js', dir + "/" + name);
-            shell.cp('-R', __dirname +'/app.js', dir + "/" + name);
-            shell.cp('-R', installed +'/index.ejs', dir + "/" + name+"/views");
-            shell.cp('-R', installed +'/style.css', dir + "/" + name+"/static");
+            shell.cp('-R', installed +'/fileCopy/app.js', dir + "/" + name);
+            // shell.cp('-R', __dirname +'/app.js', dir + "/" + name);
+            shell.cp('-R', installed +'/fileCopy/index.ejs', dir + "/" + name+"/client/views");
+            shell.cp('-R', installed +'/fileCopy/style.css', dir + "/" + name+"/client/static");
+            
+            
+            shell.cp('-R', installed +'/fileCopy/routes.js', dir + "/" + name+"/server/config");
+            shell.cp('-R', installed +'/fileCopy/Model.js', dir + "/" + name+"/server/controllers");
             
 
             exec('npm init -y',function (code, output) {
@@ -75,10 +79,15 @@
                 console.log('Exit code:', code);
                 console.log('Program output:', output);
             });
+            exec('npm install express-session', function (code, output) {
+                console.log('Exit code:', code);
+                console.log('Program output:', output);
+            });
             exec('npm i express-flash',function (code, output) {
                 console.log('Exit code:', code);
                 console.log('Program output:', output);
             });
+            exec('code .')
         }
     </script>
 </body>
