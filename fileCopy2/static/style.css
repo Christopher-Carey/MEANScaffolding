@@ -1,0 +1,29 @@
+.card{
+    padding: 20px;
+    width: 500px;
+    display: inline-block;
+    margin: 20px;
+}
+.btn{
+    margin-top: 20px;
+    background-color: #D95858;
+}
+.jumbotron{
+    text-align: center;
+    background-color: #D95858;
+    color: white;
+}
+.card{
+    box-shadow: 2px 2px 5px 2px rgba(217, 88, 88, 0.397);
+}
+
+
+
+.navbar-dark .navbar-nav .nav-link{
+    color: #D95858;
+    font-size: 25px;
+    font-family: 'Brush Script MT, Brush Script Std, cursive';
+}
+.navbar-dark{
+    color: #D95858;
+}
