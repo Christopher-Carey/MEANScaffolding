@@ -29,8 +29,9 @@
         <h3>MEAN Scaffolding Tool</h3>
         
     </div>
-    <div class="card">
-        
+    <div class="row">
+        <div class="col">
+                <div class="card">
             <label for="">Location of This Tool</label>
             <input id="location" class="form-control" type="text">
             <label for="">Directory To Put App</label>
@@ -39,42 +40,94 @@
             <input id="name" class="form-control" type="text">
             <label for="">Name of Models</label>
             <input id="models" class="form-control" type="text" placeholder="NOT WORKING,COMING SOON">
-            <button class="btn btn-dark" id="btn" onclick="test()">Create</button>
-        
+            <button class="btn btn-dark" id="btn" onclick="BuildProject()">1.Create</button>
+            <button class="btn btn-dark" id="btn" onclick="Build()">2.Build</button>
+        </div>
+        </div>
+        <div class="col">
+            <div class="card">
+                <label for="">Service Name</label>
+                <input id="service-name" class="form-control" type="text">
+                <button class="btn btn-dark" id="btn" onclick="AddService()">3.Add Service</button>
+            </div>
+            <div class="card">
+                <label for="">Component Name</label>
+                <input id="component-name" class="form-control" type="text">
+                <button class="btn btn-dark" id="btn" onclick="AddComponent()">4.Add Component</button>
+            </div> 
+    </div>
+    <div class="col">
+        <div class="card">
+            <div id="activity"></div>
+        </div>
+    </div>
     </div>
     <script>
         const exec = require('child_process').exec;
-        var shell = require('shelljs');
-
-        function test() {
+        let shell = require('shelljs');
+        
+        function BuildProject() {
             var dir = document.getElementById("dir").value
             var name = document.getElementById("name").value
             var installed = document.getElementById("location").value
             shell.cd(dir)
             shell.mkdir(dir + "/" + name)
-
             shell.cd(dir + "/" + name)
-            shell.cp('-R', installed +'/fileCopy2/server/', dir + "/" + name);
-            shell.cp('-R', installed +'/fileCopy2/static/', dir + "/" + name);
-            shell.cp('-R', installed +'/fileCopy2/views/', dir + "/" + name);
-            shell.cp('-R', installed +'/fileCopy2/app.js', dir + "/" + name);
-            shell.cp('-R', installed +'/fileCopy2/package.json', dir + "/" + name);
-            shell.cp('-R', installed +'/fileCopy2/package-lock.json', dir + "/" + name);
+            // shell.cp('-R', installed +'/fileCopy2/server/', dir + "/" + name);
+            // shell.cp('-R', installed +'/fileCopy2/static/', dir + "/" + name);
+            // shell.cp('-R', installed +'/fileCopy2/views/', dir + "/" + name);
+            // shell.cp('-R', installed +'/fileCopy2/app.js', dir + "/" + name);
             exec('npm init -y',function (code, output) {
                 console.log('Exit code:', code);
                 console.log('Program output:', output);
+                document.getElementById('activity').innerHTML += "npm init <br>"
             });
             exec('npm install express mongoose', function (code, output) {
                 console.log('Exit code:', code);
                 console.log('Program output:', output);
+                document.getElementById('activity').innerHTML += "npm express & Mongoose <br>"
             });
-            exec('ng new public --style=css --routing=true',function (code, output) {
-                console.log('Exit code:', code);
-                console.log('Program output:', output);
-                alert("Done")
-            });
-            exec('code .')
+            // exec('ng new public --style=css --routing=true --skip-git',function (code, output) {
+            //     console.log('Exit code:', code);
+            //     console.log('Program output:', output);
+            //     alert("Added Angular")
+            //     document.getElementById('activity').innerHTML += "Added Angular <br>"
+            // });
+            // exec('code .')
         }
+        // function AddService(){
+        //     let service = document.getElementById("service-name").value
+        //     var dir = document.getElementById("dir").value
+
+        //     shell.cd(dir+"/public")
+        //     exec('ng g s '+ service,function (code, output) {
+        //         console.log('Exit code:', code);
+        //         console.log('Program output:', output);
+        //         alert("Added Service")
+        //         document.getElementById('activity').innerHTML += "Added Service <br>"
+        //     });
+        // }
+        // function Build(){
+        //     var dir = document.getElementById("dir").value
+        //     shell.cd(dir+"/public")
+        //     exec('ng build',function (code, output) {
+        //         console.log('Exit code:', code);
+        //         console.log('Program output:', output);
+        //         alert("Built")
+        //         document.getElementById('activity').innerHTML += "ng Build <br>"
+        //     });
+        // }
+        // function AddComponent(){
+        //     var dir = document.getElementById("dir").value
+        //     let component = document.getElementById("component-name").value
+        //     shell.cd(dir+"/public")
+        //     exec('ng g c '+component,function (code, output) {
+        //         console.log('Exit code:', code);
+        //         console.log('Program output:', output);
+        //         alert("Added Component")
+        //         document.getElementById('activity').innerHTML += "Added Component <br>"
+        //     });
+        // }
     </script>
 </body>
 

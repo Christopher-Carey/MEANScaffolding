@@ -6,8 +6,8 @@ function createWindow () {
   console.log("here")
   // Create the browser window.
   let win = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width: 850,
+    height: 650,
     webPreferences: {
       nodeIntegration: true
     }
