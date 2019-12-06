@@ -11,24 +11,28 @@
     <title>MEAN Scaffolding Tool</title>
 </head>
 <style>
-    *{
+    * {
         box-sizing: border-box;
         margin: 0;
         padding: 0;
     }
-    .card{
+
+    .card {
         padding: 20px;
         width: 300px;
-        margin:0 auto;
+        margin: 0 auto;
         margin-bottom: 15px;
     }
-    .btn{
+
+    .btn {
         margin-top: 15px;
     }
-    .jumbotron{
+
+    .jumbotron {
         text-align: center;
     }
-    #progress-bar{
+
+    #progress-bar {
         margin-left: 33px;
         margin-bottom: 10px;
         display: none;
@@ -39,7 +43,8 @@
         border-radius: 1.5em;
         color: white;
     }
-    #progress-bar::before{
+
+    #progress-bar::before {
         content: attr(data-label);
         display: flex;
         align-items: center;
@@ -47,35 +52,33 @@
         left: .5em;
         top: .5em;
         bottom: .5em;
-        width: calc(var(--width,0)*1%);
+        width: calc(var(--width, 0)*1%);
         min-width: 2rem;
         max-width: calc(100% - 1em);
         background-color: slategray;
         border-radius: 1em;
         padding: 1em;
     }
-
 </style>
 
 <body>
     <div class="jumbotron">
         <h3>MEAN Scaffolding Tool</h3><br>
-        <small><i>Version:6</i></small>
-        
+        <small><i>Version:7</i></small>
     </div>
     <div class="row">
         <div class="col">
             <div id="progress-bar" data-label="Building...." style="--width:0"></div>
-                <div class="card">
-            <label for="">Directory To Put App</label>
-            <input id="dir" class="form-control" type="text">
-            <label for="">Name Of Project Folder</label>
-            <input id="name" class="form-control" type="text">
-            <!-- <label for="">Name of Models</label>
+            <div class="card">
+                <label for="">Directory To Put App</label>
+                <input id="dir" class="form-control" type="text">
+                <label for="">Name Of Project Folder</label>
+                <input id="name" class="form-control" type="text">
+                <!-- <label for="">Name of Models</label>
             <input id="models" class="form-control" type="text" placeholder="NOT WORKING,COMING SOON"> -->
-            <button class="btn btn-dark" id="btn" onclick="BuildProject()">1.Create</button>
-            <button class="btn btn-dark" id="btn" onclick="Build()">2.Build</button>
-        </div>
+                <button class="btn btn-dark" id="btn" onclick="BuildProject()">1.Create</button>
+                <button class="btn btn-dark" id="btn" onclick="Build()">2.Build</button>
+            </div>
         </div>
         <div class="col">
             <div class="card">
@@ -87,101 +90,115 @@
                 <label for="">Component Name</label>
                 <input id="component-name" class="form-control" type="text">
                 <button class="btn btn-dark" id="btn" onclick="AddComponent()">4.Add Component</button>
-            </div> 
-            <button class="btn btn-dark" id="btn" onclick="ZipUp()">5.Zip Project</button>
-            
-    </div>
-    <div class="col">
-        <div class="card">
-            <div id="activity"></div>
+            </div>
+            <div class="card">
+                <button class="btn btn-dark" id="btn" onclick="ZipUp()">5.Zip Project</button>
+                <a href=""></a>
+                <p>You may need <a href="https://www.7-zip.org/a/7za920.zip">7zip</a> and add to enviorment paths</p>
+
+            </div>
+
         </div>
-    </div>
+        <div class="col">
+            <div class="card">
+                <div id="activity"></div>
+            </div>
+        </div>
     </div>
     <script>
         const exec = require('child_process').exec;
+        const Store = require('electron-store');
+        const store = new Store()
         let shell = require('shelljs');
-        
+        document.getElementById("dir").value = store.get('path')
+        document.getElementById("name").value = store.get('foldername')
+
         function BuildProject() {
-            var dir = document.getElementById("dir").value
             var name = document.getElementById("name").value
-            // var installed = document.getElementById("location").value
+            var dir = document.getElementById("dir").value
+            store.set('path', dir)
+            store.set('foldername', name)
             var installed = __dirname;
-            document.getElementById('progress-bar').style.setProperty("display","block")
+            document.getElementById('progress-bar').style.setProperty("display", "block")
             shell.cd(dir)
             shell.mkdir(dir + "/" + name)
             shell.cd(dir + "/" + name)
-            shell.cp('-R', installed +'/BOIL/server/', dir + "/" + name);
-            shell.cp('-R', installed +'/BOIL/app.js', dir + "/" + name);
-            shell.cp('-R', installed +'/BOIL/server.js', dir + "/" + name);
-            document.getElementById('progress-bar').style.setProperty("--width","25")
-            exec('npm init -y',function (code, output) {
-                    console.log('Exit code:', code);
-                    console.log('Program output:', output);
-                    document.getElementById('activity').innerHTML += "npm init <br>"
-                document.getElementById('progress-bar').style.setProperty("--width","50")
-                });
+            shell.cp('-R', installed + '/BOIL/server/', dir + "/" + name);
+            shell.cp('-R', installed + '/BOIL/app.js', dir + "/" + name);
+            shell.cp('-R', installed + '/BOIL/server.js', dir + "/" + name);
+            document.getElementById('progress-bar').style.setProperty("--width", "25")
+            exec('npm init -y', function (code, output) {
+                console.log('Exit code:', code);
+                console.log('Program output:', output);
+                document.getElementById('activity').innerHTML += "npm init <br>"
+                document.getElementById('progress-bar').style.setProperty("--width", "50")
+            });
             exec('npm install express mongoose', function (code, output) {
-                    console.log('Exit code:', code);
-                    console.log('Program output:', output);
-                    document.getElementById('activity').innerHTML += "npm express & Mongoose <br>"
-                    document.getElementById('progress-bar').style.setProperty("--width","75")
-                });
-            exec('ng new public --style=css --routing=true --skip-git',function (code, output) {
-                    console.log('Exit code:', code);
-                    console.log('Program output:', output);
-                    document.getElementById('activity').innerHTML += "Added Angular <br>"
-                    document.getElementById('progress-bar').style.setProperty("--width","100")
-                    document.getElementById('progress-bar').style.setProperty("display","none")
-                    document.getElementById('progress-bar').style.setProperty("--width","0")
-                    alert("Added Angular")
-                    exec('code .')
+                console.log('Exit code:', code);
+                console.log('Program output:', output);
+                document.getElementById('activity').innerHTML += "npm express & Mongoose <br>"
+                document.getElementById('progress-bar').style.setProperty("--width", "75")
+            });
+            exec('ng new public --style=css --routing=true --skip-git', function (code, output) {
+                console.log('Exit code:', code);
+                console.log('Program output:', output);
+                document.getElementById('activity').innerHTML += "Added Angular <br>"
+                document.getElementById('progress-bar').style.setProperty("--width", "100")
+                document.getElementById('progress-bar').style.setProperty("display", "none")
+                document.getElementById('progress-bar').style.setProperty("--width", "0")
+                alert("Added Angular")
+                exec('code .')
             });
         }
-        function AddService(){
+
+        function AddService() {
             let service = document.getElementById("service-name").value
             var dir = document.getElementById("dir").value
             var name = document.getElementById("name").value
-            shell.cd(dir+"/"+name+"/public")
-            exec('ng g s '+ service,function (code, output) {
+            shell.cd(dir + "/" + name + "/public")
+            exec('ng g s ' + service, function (code, output) {
                 console.log('Exit code:', code);
                 console.log('Program output:', output);
                 alert("Added Service")
                 document.getElementById('activity').innerHTML += "Added Service <br>"
             });
         }
-        function Build(){
-            document.getElementById('progress-bar').style.setProperty("--width","50")
 
+        function Build() {
+            document.getElementById('progress-bar').style.setProperty("display", "block")
+            document.getElementById('progress-bar').style.setProperty("--width", "50")
             var dir = document.getElementById("dir").value
             var name = document.getElementById("name").value
-            shell.cd(dir+"/"+name+"/public")
-            exec('ng build',function (code, output) {
+            shell.cd(dir + "/" + name + "/public")
+            exec('ng build', function (code, output) {
                 console.log('Exit code:', code);
                 console.log('Program output:', output);
-                document.getElementById('progress-bar').style.setProperty("--width","100")
-                document.getElementById('progress-bar').style.setProperty("display","none")
-                document.getElementById('progress-bar').style.setProperty("--width","0")
+                document.getElementById('progress-bar').style.setProperty("--width", "100")
+                document.getElementById('progress-bar').style.setProperty("display", "none")
+                document.getElementById('progress-bar').style.setProperty("--width", "0")
                 alert("Built")
                 document.getElementById('activity').innerHTML += "ng Build <br>"
             });
         }
-        function AddComponent(){
+
+        function AddComponent() {
             var dir = document.getElementById("dir").value
             let component = document.getElementById("component-name").value
             var name = document.getElementById("name").value
-            shell.cd(dir+"/"+name+"/public")
-            exec('ng g c '+component,function (code, output) {
+            shell.cd(dir + "/" + name + "/public")
+            exec('ng g c ' + component, function (code, output) {
                 console.log('Exit code:', code);
                 console.log('Program output:', output);
                 alert("Added Component")
                 document.getElementById('activity').innerHTML += "Added Component <br>"
             });
         }
-        function ZipUp(){
+
+        function ZipUp() {
             var dir = document.getElementById("dir").value
             var name = document.getElementById("name").value
             let component = document.getElementById("component-name").value
-            exec("7za.exe a "+dir+"/"+name+".zip "+dir+"/"+name+" -mx0 -xr!node_modules",function (code, output) {
+            exec("7za.exe a " + dir + "/" + name + ".zip " + dir + "/" + name + " -mx0 -xr!node_modules", function (code, output) {
                 console.log('Exit code:', code);
                 console.log('Program output:', output);
                 alert("Added Component")
