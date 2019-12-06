@@ -12,7 +12,7 @@ function createWindow () {
       nodeIntegration: true
     }
   })
-  win.autoHideMenuBar = true;  // win.removeMenu();
+  // win.autoHideMenuBar = true;  // win.removeMenu();
 
   win.webContents.openDevTools()
 
