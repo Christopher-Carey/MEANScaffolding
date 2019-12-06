@@ -7,7 +7,6 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
         integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <!-- <script src="jj.js"></script> -->
     <title>MEAN Scaffolding Tool</title>
 </head>
 <style>
@@ -16,7 +15,11 @@
         margin: 0;
         padding: 0;
     }
-    .jumbotron{
+    body{
+        overflow-x: hidden;
+    }
+
+    .jumbotron {
         background-color: #582B39;
         color: white;
     }
@@ -34,14 +37,16 @@
         background-color: #582B39;
         border: none;
     }
-    .btn:disabled{
+
+    .btn:disabled {
         background-color: #BEA5AB
     }
-    .list-group-item.active{
+
+    .list-group-item.active {
         background-color: #887177;
-        border-color: #582B39 ;
+        border-color: #582B39;
     }
-    
+
     .jumbotron {
         text-align: center;
     }
@@ -90,16 +95,16 @@
                 <label for="">Name Of Project Folder</label>
                 <input id="name" class="form-control" type="text">
                 <!-- <label for="">Name of Models</label>
-            <input id="models" class="form-control" type="text" placeholder="NOT WORKING,COMING SOON"> -->
+                <input id="models" class="form-control" type="text" placeholder="NOT WORKING,COMING SOON"> -->
                 <button class="btn btn-dark" onclick="BuildProject()">1.Create</button>
                 <button class="btn btn-dark" id="buildbtn" onclick="Build()" disabled>2.Build</button>
             </div>
             <div class="card">
-                    <ul class="list-group" id="activity">
-                            <li class="list-group-item active">Activity</li>
-                          </ul>
-                    <div id="activity"></div>
-                </div>
+                <ul class="list-group" id="activity">
+                    <li class="list-group-item active">Activity</li>
+                </ul>
+                <div id="activity"></div>
+            </div>
         </div>
         <div class="col">
             <div class="card">
@@ -132,19 +137,15 @@
         document.getElementById("dir").value = store.get('path')
         document.getElementById("name").value = store.get('foldername')
 
-        function test(){
-            // document.getElementById('activity').innerHTML += "<li class='list-group-item'>npm express & Mongoose </li>"
-            // document.getElementById('activity').innerHTML += "<li class='list-group-item'>npm express & Mongoose </li>"
-            // document.getElementById('activity').innerHTML += "<li class='list-group-item'>npm express & Mongoose </li>"
-
-        }
+        // function test(){
+        // }
 
         function BuildProject() {
             var name = document.getElementById("name").value
             var dir = document.getElementById("dir").value
+            var installed = __dirname;
             store.set('path', dir)
             store.set('foldername', name)
-            var installed = __dirname;
             document.getElementById('progress-bar').style.setProperty("display", "block")
             shell.cd(dir)
             shell.mkdir(dir + "/" + name)
@@ -178,25 +179,6 @@
                 alert("Added Angular")
                 exec('code .')
                 document.getElementById('buildbtn').removeAttribute("disabled")
-
-        });
-    }
-
-        function AddService() {
-            let service = document.getElementById("service-name").value
-            var dir = document.getElementById("dir").value
-            var name = document.getElementById("name").value
-            shell.cd(dir + "/" + name + "/public")
-            exec('ng g s ' + service, function (code, output) {
-                console.log('Exit code:', code);
-                console.log('Program output:', output);
-                alert("Added Service")
-                document.getElementById('activity').innerHTML += "Added Service <br>"
-                document.getElementById('activity').innerHTML += "<li class='list-group-item'>Added Service </li>"
-                document.getElementById('componentbtn').removeAttribute("disabled")
-                document.getElementById('zipbtn').removeAttribute("disabled")
-
-
             });
         }
 
@@ -216,7 +198,21 @@
                 document.getElementById('activity').innerHTML += "ng Build <br>"
                 document.getElementById('activity').innerHTML += "<li class='list-group-item'>ng Build </li>"
                 document.getElementById('servicebtn').removeAttribute("disabled")
+            });
+        }
 
+        function AddService() {
+            let service = document.getElementById("service-name").value
+            var dir = document.getElementById("dir").value
+            var name = document.getElementById("name").value
+            shell.cd(dir + "/" + name + "/public")
+            exec('ng g s ' + service, function (code, output) {
+                console.log('Exit code:', code);
+                console.log('Program output:', output);
+                alert("Added Service")
+                document.getElementById('activity').innerHTML += "Added Service <br>"
+                document.getElementById('activity').innerHTML += "<li class='list-group-item'>Added Service </li>"
+                document.getElementById('componentbtn').removeAttribute("disabled")
             });
         }
 
@@ -247,5 +243,4 @@
         }
     </script>
 </body>
-
 </html>
