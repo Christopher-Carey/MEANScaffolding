@@ -32,7 +32,10 @@
     .btn {
         margin-top: 15px;
         background-color: #582B39;
-
+        border: none;
+    }
+    .btn:disabled{
+        background-color: rgba(88, 43, 57, 0.45);
     }
 
     .jumbotron {
@@ -62,7 +65,7 @@
         width: calc(var(--width, 0)*1%);
         min-width: 2rem;
         max-width: calc(100% - 1em);
-        background-color: slategray;
+        background-color: #582B39;
         border-radius: 1em;
         padding: 1em;
     }
@@ -72,7 +75,7 @@
     <div class="jumbotron">
         <img src="icons8-angry-482.png" alt="">
         <h3>MEAN Scaffolding Tool</h3><br>
-        <small><i>Version:7</i></small>
+        <small><i>Version:8</i></small>
     </div>
     <div class="row">
         <div class="col">
@@ -84,8 +87,8 @@
                 <input id="name" class="form-control" type="text">
                 <!-- <label for="">Name of Models</label>
             <input id="models" class="form-control" type="text" placeholder="NOT WORKING,COMING SOON"> -->
-                <button class="btn btn-dark" id="btn" onclick="BuildProject()">1.Create</button>
-                <button class="btn btn-dark" id="btn" onclick="Build()">2.Build</button>
+                <button class="btn btn-dark" onclick="BuildProject()">1.Create</button>
+                <button class="btn btn-dark" id="buildbtn" onclick="Build()" disabled>2.Build</button>
             </div>
             <div class="card">
                     <div id="activity"></div>
@@ -95,16 +98,16 @@
             <div class="card">
                 <label for="">Service Name</label>
                 <input id="service-name" class="form-control" type="text">
-                <button class="btn btn-dark" id="btn" onclick="AddService()">3.Add Service</button>
+                <button class="btn btn-dark" id="servicebtn" onclick="AddService()" disabled>3.Add Service</button>
             </div>
             <div class="card">
                 <label for="">Component Name</label>
                 <input id="component-name" class="form-control" type="text">
-                <button class="btn btn-dark" id="btn" onclick="AddComponent()">4.Add Component</button>
+                <button class="btn btn-dark" id="componentbtn" onclick="AddComponent()" disabled>4.Add Component</button>
             </div>
             <div class="card">
                 <label for="">Zip Projects</label>
-                <button class="btn btn-dark" id="btn" onclick="ZipUp()">5.Zip Project</button>
+                <button class="btn btn-dark" id="zipbtn" onclick="ZipUp()" disabled>5.Zip Project</button>
                 <a href=""></a>
                 <p>You may need <a href="https://www.7-zip.org/a/7za920.zip">7zip</a> and add to enviorment paths</p>
 
@@ -156,8 +159,10 @@
                 document.getElementById('progress-bar').style.setProperty("--width", "0")
                 alert("Added Angular")
                 exec('code .')
-            });
-        }
+                document.getElementById('buildbtn').removeAttribute("disabled")
+
+        });
+    }
 
         function AddService() {
             let service = document.getElementById("service-name").value
@@ -169,6 +174,10 @@
                 console.log('Program output:', output);
                 alert("Added Service")
                 document.getElementById('activity').innerHTML += "Added Service <br>"
+                document.getElementById('componentbtn').removeAttribute("disabled")
+                document.getElementById('zipbtn').removeAttribute("disabled")
+
+
             });
         }
 
@@ -186,6 +195,8 @@
                 document.getElementById('progress-bar').style.setProperty("--width", "0")
                 alert("Built")
                 document.getElementById('activity').innerHTML += "ng Build <br>"
+                document.getElementById('servicebtn').removeAttribute("disabled")
+
             });
         }
 
