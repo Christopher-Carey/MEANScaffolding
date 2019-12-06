@@ -3,47 +3,39 @@ require('../models/model')
 const mongoose = require('mongoose'),
     restful = mongoose.model("restful");
 
-module.exports = {
+    module.exports = {
 
-    index: function (request, response) {
-        restful.find()
-        .then(allrestfuls => {
-            response.json({data:allrestfuls});
-        })
-        .catch(err => response.json(err));
-    },
-    show: function (request, response) {
-        restful.findOne(request.params)
-            .then(onerestful => {
-                onerestfulVar = onerestful
-                response.json(onerestfulVar)
+        index: function (request, response) {
+            restful.find()
+                .then(restfuls => response.json({ results: restfuls }))
+                .catch(err => response.json({ error: err.error }))
+        },
+        show: function (request, response) {
+            var { id } = request.params
+            restful.findOne({ _id: id })
+                .then(restful => response.json({ results: restful }))
+                .catch(err => response.json({ error: err.error }))
+        },
+        create: function (request, response) {
+            restful.create(request.body)
+                .then(restful => response.json({ results: restful }))
+                .catch(err => response.json({ error: err.error }))
+        },
+        destroy: function (request, response) {
+            const { id } = request.params;
+            restful.remove({ _id: id })
+                .then(restful => response.json({ results: restful }))
+                .catch(err => response.json({ error: err.error }))
+        },
+        update: function (request, response) {
+            // const { id } = request.params;
+            restful.updateOne(request.params, {
+                name: request.body.name,
+                fact: request.body.fact
             })
-            .catch(err => response.json(err));
-    },
-    create: function (request, response) {
-        restful.create(request.body)
-            .then(newrestful => {
-                response.redirect("/");
-            })
-            .catch(err => response.json(err));
-    },
-    destroy: function (request, response) {
-        const { id } = request.params;
-        restful.remove({_id: id})
-            .then(deletedrestful => {
-                response.redirect("/")
-            })
-            .catch(err => response.json(err));
-    },
-    update: function (request, response) {
-        // const { id } = request.params;
-        restful.updateOne(request.params, {
-            name: request.body.name,
-            fact: request.body.fact
-        })
-            .then(result => {
-                response.redirect("/edit/" + id)
-            })
-            .catch(err => response.json(err));
-    }
-};
+                .then(result => {
+                    response.redirect("/edit/" + id)
+                })
+                .catch(err => response.json({ error: err.error }))
+        }
+    };

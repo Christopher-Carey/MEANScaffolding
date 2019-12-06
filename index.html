@@ -35,9 +35,13 @@
         border: none;
     }
     .btn:disabled{
-        background-color: rgba(88, 43, 57, 0.45);
+        background-color: #BEA5AB
     }
-
+    .list-group-item.active{
+        background-color: #887177;
+        border-color: #582B39 ;
+    }
+    
     .jumbotron {
         text-align: center;
     }
@@ -91,6 +95,9 @@
                 <button class="btn btn-dark" id="buildbtn" onclick="Build()" disabled>2.Build</button>
             </div>
             <div class="card">
+                    <ul class="list-group" id="activity">
+                            <li class="list-group-item active">Activity</li>
+                          </ul>
                     <div id="activity"></div>
                 </div>
         </div>
@@ -107,7 +114,8 @@
             </div>
             <div class="card">
                 <label for="">Zip Projects</label>
-                <button class="btn btn-dark" id="zipbtn" onclick="ZipUp()" disabled>5.Zip Project</button>
+                <button class="btn btn-dark" id="zipbtn" onclick="ZipUp()">5.Zip Project</button>
+                <!-- <button class="btn btn-dark" id="zipbtn" onclick="test()" >Testing</button> -->
                 <a href=""></a>
                 <p>You may need <a href="https://www.7-zip.org/a/7za920.zip">7zip</a> and add to enviorment paths</p>
 
@@ -123,6 +131,13 @@
         let shell = require('shelljs');
         document.getElementById("dir").value = store.get('path')
         document.getElementById("name").value = store.get('foldername')
+
+        function test(){
+            // document.getElementById('activity').innerHTML += "<li class='list-group-item'>npm express & Mongoose </li>"
+            // document.getElementById('activity').innerHTML += "<li class='list-group-item'>npm express & Mongoose </li>"
+            // document.getElementById('activity').innerHTML += "<li class='list-group-item'>npm express & Mongoose </li>"
+
+        }
 
         function BuildProject() {
             var name = document.getElementById("name").value
@@ -142,18 +157,21 @@
                 console.log('Exit code:', code);
                 console.log('Program output:', output);
                 document.getElementById('activity').innerHTML += "npm init <br>"
+                document.getElementById('activity').innerHTML += "<li class='list-group-item'>npm init</li>"
                 document.getElementById('progress-bar').style.setProperty("--width", "50")
             });
             exec('npm install express mongoose', function (code, output) {
                 console.log('Exit code:', code);
                 console.log('Program output:', output);
                 document.getElementById('activity').innerHTML += "npm express & Mongoose <br>"
+                document.getElementById('activity').innerHTML += "<li class='list-group-item'>npm express & Mongoose </li>"
                 document.getElementById('progress-bar').style.setProperty("--width", "75")
             });
             exec('ng new public --style=css --routing=true --skip-git', function (code, output) {
                 console.log('Exit code:', code);
                 console.log('Program output:', output);
                 document.getElementById('activity').innerHTML += "Added Angular <br>"
+                document.getElementById('activity').innerHTML += "<li class='list-group-item'>Added Angular </li>"
                 document.getElementById('progress-bar').style.setProperty("--width", "100")
                 document.getElementById('progress-bar').style.setProperty("display", "none")
                 document.getElementById('progress-bar').style.setProperty("--width", "0")
@@ -174,6 +192,7 @@
                 console.log('Program output:', output);
                 alert("Added Service")
                 document.getElementById('activity').innerHTML += "Added Service <br>"
+                document.getElementById('activity').innerHTML += "<li class='list-group-item'>Added Service </li>"
                 document.getElementById('componentbtn').removeAttribute("disabled")
                 document.getElementById('zipbtn').removeAttribute("disabled")
 
@@ -195,6 +214,7 @@
                 document.getElementById('progress-bar').style.setProperty("--width", "0")
                 alert("Built")
                 document.getElementById('activity').innerHTML += "ng Build <br>"
+                document.getElementById('activity').innerHTML += "<li class='list-group-item'>ng Build </li>"
                 document.getElementById('servicebtn').removeAttribute("disabled")
 
             });
@@ -210,18 +230,19 @@
                 console.log('Program output:', output);
                 alert("Added Component")
                 document.getElementById('activity').innerHTML += "Added Component <br>"
+                document.getElementById('activity').innerHTML += "<li class='list-group-item'>Added Component </li>"
             });
         }
 
         function ZipUp() {
             var dir = document.getElementById("dir").value
             var name = document.getElementById("name").value
-            let component = document.getElementById("component-name").value
             exec("7za.exe a " + dir + "/" + name + ".zip " + dir + "/" + name + " -mx0 -xr!node_modules", function (code, output) {
                 console.log('Exit code:', code);
                 console.log('Program output:', output);
-                alert("Added Component")
+                alert("Zipped")
                 document.getElementById('activity').innerHTML += "Zipped UP <br>"
+                document.getElementById('activity').innerHTML += "<li class='list-group-item'>Zipped UP </li>"
             });
         }
     </script>
