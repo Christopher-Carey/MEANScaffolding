@@ -111,6 +111,8 @@
                 <label for="">Service Name</label>
                 <input id="service-name" class="form-control" type="text">
                 <button class="btn btn-dark" id="servicebtn" onclick="AddService()" disabled>3.Add Service</button>
+                <button class="btn btn-dark" id="filebtn" onclick="AddFiles()" disabled>Add Files</button>
+
             </div>
             <div class="card">
                 <label for="">Component Name</label>
@@ -120,7 +122,7 @@
             <div class="card">
                 <label for="">Zip Projects</label>
                 <button class="btn btn-dark" id="zipbtn" onclick="ZipUp()">5.Zip Project</button>
-                <!-- <button class="btn btn-dark" id="zipbtn" onclick="test()" >Testing</button> -->
+                <button class="btn btn-dark" id="zipbtn" onclick="test()" >Testing</button>
                 <a href=""></a>
                 <p>You may need <a href="https://www.7-zip.org/a/7za920.zip">7zip</a> and add to enviorment paths</p>
 
@@ -137,8 +139,13 @@
         document.getElementById("dir").value = store.get('path')
         document.getElementById("name").value = store.get('foldername')
 
-        // function test(){
-        // }
+        function test(){
+            var installed = __dirname;
+            var dir = document.getElementById("dir").value
+            var name = document.getElementById("name").value
+            shell.cp('-fR', installed + '/BOIL/srcApp/', dir + "/" + name+"/public/src/app");
+        }
+      
 
         function BuildProject() {
             var name = document.getElementById("name").value
@@ -157,21 +164,18 @@
             exec('npm init -y', function (code, output) {
                 console.log('Exit code:', code);
                 console.log('Program output:', output);
-                document.getElementById('activity').innerHTML += "npm init <br>"
                 document.getElementById('activity').innerHTML += "<li class='list-group-item'>npm init</li>"
                 document.getElementById('progress-bar').style.setProperty("--width", "50")
             });
             exec('npm install express mongoose', function (code, output) {
                 console.log('Exit code:', code);
                 console.log('Program output:', output);
-                document.getElementById('activity').innerHTML += "npm express & Mongoose <br>"
                 document.getElementById('activity').innerHTML += "<li class='list-group-item'>npm express & Mongoose </li>"
                 document.getElementById('progress-bar').style.setProperty("--width", "75")
             });
             exec('ng new public --style=css --routing=true --skip-git', function (code, output) {
                 console.log('Exit code:', code);
                 console.log('Program output:', output);
-                document.getElementById('activity').innerHTML += "Added Angular <br>"
                 document.getElementById('activity').innerHTML += "<li class='list-group-item'>Added Angular </li>"
                 document.getElementById('progress-bar').style.setProperty("--width", "100")
                 document.getElementById('progress-bar').style.setProperty("display", "none")
@@ -195,7 +199,6 @@
                 document.getElementById('progress-bar').style.setProperty("display", "none")
                 document.getElementById('progress-bar').style.setProperty("--width", "0")
                 alert("Built")
-                document.getElementById('activity').innerHTML += "ng Build <br>"
                 document.getElementById('activity').innerHTML += "<li class='list-group-item'>ng Build </li>"
                 document.getElementById('servicebtn').removeAttribute("disabled")
             });
@@ -210,10 +213,17 @@
                 console.log('Exit code:', code);
                 console.log('Program output:', output);
                 alert("Added Service")
-                document.getElementById('activity').innerHTML += "Added Service <br>"
                 document.getElementById('activity').innerHTML += "<li class='list-group-item'>Added Service </li>"
                 document.getElementById('componentbtn').removeAttribute("disabled")
+                document.getElementById('filebtn').removeAttribute("disabled")
             });
+        }
+        function AddFiles(){
+            var installed = __dirname;
+            var dir = document.getElementById("dir").value
+            var name = document.getElementById("name").value
+            shell.cp('-fR', installed + '/BOIL/srcApp/', dir + "/" + name+"/public/src/app");
+            document.getElementById('activity').innerHTML += "<li class='list-group-item'>Added File Folder</li>"
         }
 
         function AddComponent() {
@@ -225,7 +235,6 @@
                 console.log('Exit code:', code);
                 console.log('Program output:', output);
                 alert("Added Component")
-                document.getElementById('activity').innerHTML += "Added Component <br>"
                 document.getElementById('activity').innerHTML += "<li class='list-group-item'>Added Component </li>"
             });
         }
@@ -237,7 +246,6 @@
                 console.log('Exit code:', code);
                 console.log('Program output:', output);
                 alert("Zipped")
-                document.getElementById('activity').innerHTML += "Zipped UP <br>"
                 document.getElementById('activity').innerHTML += "<li class='list-group-item'>Zipped UP </li>"
             });
         }
