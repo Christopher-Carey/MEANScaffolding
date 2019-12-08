@@ -79,6 +79,12 @@
         border-radius: 1em;
         padding: 1em;
     }
+    .construction{
+        position: absolute ;
+        top: 10px;
+        left: 30px;
+        z-index: 3;
+    }
     /* a{
         color: white;
         text-decoration-style: ;
@@ -88,15 +94,18 @@
 
 <body>
     <div class="jumbotron">
-        <img src="icons8-angry-482.png" alt="">
+            <img class="construction" src="construction.png" alt="">
+        <!-- <img src="icons8-angry-482.png" alt=""> -->
         <h3>Django Scaffolding Tool Test</h3><br>
-        <small><i>Version: 8</i></small><br>
+        <small><i>Version: 1</i></small><br>
         <small style="font-size: 10px;"><i>By: <a href="https://github.com/Christopher-Carey">Christopher-Carey</a> </i></small>
     </div>
     <div class="row">
         <div class="col">
             <div id="progress-bar" data-label="Building...." style="--width:0"></div>
             <div class="card">
+                <label for="">Path to Environment</label>
+                <input id="envi" class="form-control" type="text">
                 <label for="">Directory To Put App</label>
                 <input id="dir" class="form-control" type="text">
                 <label for="">Name Of Project Folder</label>
@@ -129,7 +138,7 @@
             <div class="card">
                 <label for="">Zip Projects</label>
                 <button class="btn btn-dark" id="zipbtn" onclick="ZipUp()">5.Zip Project</button>
-                <!-- <button class="btn btn-dark" id="zipbtn" onclick="test()" >Testing</button> -->
+                <button class="btn btn-dark" id="zipbtn" onclick="test()" >Testing</button>
                 <a href=""></a>
                 <p style="text-align: center;"> <i> You may need <a href="https://www.7-zip.org/a/7za920.zip">7zip</a> and add it to environment paths</i></p>
 
@@ -146,12 +155,24 @@
         document.getElementById("dir").value = store.get('path')
         document.getElementById("name").value = store.get('foldername')
 
-        // function test(){
-        //     var installed = __dirname;
-        //     var dir = document.getElementById("dir").value
-        //     var name = document.getElementById("name").value
-        //     shell.cp('-fR', installed + '/BOIL/srcApp/', dir + "/" + name+"/public/src/app");
-        // }
+        function test(){
+            var envi = document.getElementById("envi").value
+            var name = document.getElementById("name").value
+            var dir = document.getElementById("dir").value
+            shell.cd(envi)
+            console.log(shell.pwd())
+
+            exec('C:/Users/ccare/Documents/Coding/CodingDojo/Python/python_stack/my_enviroments/djangoPy3Env/Scripts/activate.bat', function (code, output) {
+                console.log('Exit code:', code);
+                console.log('Program output:', output);
+                // shell.cd(dir)
+                console.log(shell.pwd())
+            });
+            exec('django-admin.py startproject '+name, function (code, output) {
+                console.log('Exit code:', code);
+                console.log('Program output:', output);
+            });
+        }
       
 
         function BuildProject() {

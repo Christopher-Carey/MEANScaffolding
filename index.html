@@ -79,9 +79,18 @@
         border-radius: 1em;
         padding: 1em;
     }
-    .django:hover{
-        background-image:url('icons8-silence-32o.png');
+    .django{
+        top: 10px;
+        left: 10px;
+        position:absolute;
+        /* float: left; */
+
     }
+    /* .django:hover{
+        background:url('icons8-silence-32o.png');
+        background-size:auto;
+        height: 30px;
+    } */
     /* a{
         color: white;
         text-decoration-style: ;
@@ -91,7 +100,7 @@
 
 <body>
     <div class="jumbotron">
-        <a class="django" href="index2.html"><img src="icons8-silence-32o.png" alt=""></a><br>
+        <a class="django" href="index2.html"><img  width="50px" src="icons8-silence-32red.png" onmouseover="this.src='icons8-silence-32o.png'" alt=""></a><br>
         <img src="icons8-angry-482.png" alt="">
         <h3>MEAN Scaffolding Tool</h3><br>
         <small><i>Version: 8</i></small><br>
