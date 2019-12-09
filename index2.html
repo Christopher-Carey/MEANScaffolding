@@ -159,18 +159,20 @@
             var envi = document.getElementById("envi").value
             var name = document.getElementById("name").value
             var dir = document.getElementById("dir").value
-            shell.cd(envi)
+            // shell.cd(envi)
+            shell.cd('C:/Users/ccare/Documents/Coding/TEST')
             console.log(shell.pwd())
 
-            exec('C:/Users/ccare/Documents/Coding/CodingDojo/Python/python_stack/my_enviroments/djangoPy3Env/Scripts/activate.bat', function (code, output) {
+            exec('C:/Users/ccare/Documents/Coding/CodingDojo/Python/python_stack/my_enviroments/djangoPy3Env/Scripts/python.exe'&&'django-admin startproject',function (code, output) {
                 console.log('Exit code:', code);
                 console.log('Program output:', output);
+                shell.cd('C:/Users/ccare/Documents/Coding/TEST')
                 // shell.cd(dir)
                 console.log(shell.pwd())
-            });
-            exec('django-admin.py startproject '+name, function (code, output) {
-                console.log('Exit code:', code);
-                console.log('Program output:', output);
+                exec('django-admin startproject '+name, function (code, output) {
+                  console.log('Exit code:', code);
+                  console.log('Program output:', output);
+              });
             });
         }
       

@@ -77,6 +77,12 @@
         left: 10px;
         position:absolute;
     }
+    #uploadbtn{
+        width: 50%;
+    }
+    #boilbtn{
+        width: 50%;
+    }
 </style>
 
 <body>
@@ -84,13 +90,18 @@
         <!-- <a class="django" href="index2.html"><img  width="50px" src="icons8-silence-32red.png" onmouseover="this.src='icons8-silence-32o.png'" alt=""></a><br> -->
         <img src="icons8-angry-482.png" alt="">
         <h3>MEAN Scaffolding Tool</h3><br>
-        <small><i>Version: 8</i></small><br>
+        <small><i>Version: 10</i></small><br>
         <small style="font-size: 10px;"><i>By: <a href="https://github.com/Christopher-Carey">Christopher-Carey</a> </i></small>
     </div>
     <div class="row">
         <div class="col">
             <div id="progress-bar" data-label="Building...." style="--width:0"></div>
             <div class="card">
+                <button class="btn btn-dark" id="uploadbtn" onclick="PointToBoil()">Upload Boil</button>
+                <label for="" id="boilpath" style="display: none;">Boil Path</label>
+                <input id="boilinput" class="form-control" style="display: none;" type="text">
+                <button class="btn btn-dark" id="boilbtn" onclick="SubmitBoil()" style="display: none;">Submit Boil</button>
+                
                 <label for="">Directory To Put App</label>
                 <input id="dir" class="form-control" type="text">
                 <label for="">Name Of Project Folder</label>
@@ -134,15 +145,38 @@
         let shell = require('shelljs');
         document.getElementById("dir").value = store.get('path')
         document.getElementById("name").value = store.get('foldername')
+        if (store.get('boilpath') == "Not Set"){
+            document.getElementById('createbtn').setAttribute("disabled",true)
+        }else{
+            document.getElementById('createbtn').removeAttribute("disabled")
+        }
 
         // function test(){
         // }
+
+        function PointToBoil(){
+            document.getElementById('boilpath').style.setProperty("display", "block")
+            document.getElementById('boilinput').style.setProperty("display", "block")
+            document.getElementById('boilbtn').style.setProperty("display", "block")
+            document.getElementById("boilinput").value = store.get('boilpath')
+        }
+        function SubmitBoil(){
+            var boildir = document.getElementById("boilinput").value
+            document.getElementById('boilpath').style.setProperty("display", "none")
+            document.getElementById('boilinput').style.setProperty("display", "none")
+            document.getElementById('boilbtn').style.setProperty("display", "none")
+            document.getElementById("boilinput").value = store.get('boilpath')
+            document.getElementById('createbtn').removeAttribute("disabled")
+            store.set('boilpath',boildir )
+
+        }
       
 
         function BuildProject() {
             var name = document.getElementById("name").value
             var dir = document.getElementById("dir").value
-            var installed = __dirname;
+            var installed = store.get('boilpath')
+
             store.set('path', dir)
             store.set('foldername', name)
             document.getElementById('progress-bar').style.setProperty("display", "block")
