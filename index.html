@@ -23,7 +23,6 @@
         background-color: #582B39;
         color: white;
     }
-
     .card {
         padding: 20px;
         width: 300px;
@@ -31,27 +30,22 @@
         margin-bottom: 15px;
         box-shadow: 2px 2px 5px 2px rgba(88, 43, 57, 0.411);
     }
-
     .btn {
         margin-top: 15px;
         background-color: #582B39;
         border: none;
     }
-
     .btn:disabled {
         background-color: #BEA5AB
     }
-
     .list-group-item.active {
         background-color: #887177;
         border-color: #582B39;
     }
-
     .jumbotron {
         text-align: center;
         padding: 20px;
     }
-
     #progress-bar {
         margin-left: 33px;
         margin-bottom: 10px;
@@ -63,7 +57,6 @@
         border-radius: 1.5em;
         color: white;
     }
-
     #progress-bar::before {
         content: attr(data-label);
         display: flex;
@@ -83,24 +76,12 @@
         top: 10px;
         left: 10px;
         position:absolute;
-        /* float: left; */
-
     }
-    /* .django:hover{
-        background:url('icons8-silence-32o.png');
-        background-size:auto;
-        height: 30px;
-    } */
-    /* a{
-        color: white;
-        text-decoration-style: ;
-        border-bottom-color: 582B39;
-    } */
 </style>
 
 <body>
     <div class="jumbotron">
-        <a class="django" href="index2.html"><img  width="50px" src="icons8-silence-32red.png" onmouseover="this.src='icons8-silence-32o.png'" alt=""></a><br>
+        <!-- <a class="django" href="index2.html"><img  width="50px" src="icons8-silence-32red.png" onmouseover="this.src='icons8-silence-32o.png'" alt=""></a><br> -->
         <img src="icons8-angry-482.png" alt="">
         <h3>MEAN Scaffolding Tool</h3><br>
         <small><i>Version: 8</i></small><br>
@@ -114,9 +95,7 @@
                 <input id="dir" class="form-control" type="text">
                 <label for="">Name Of Project Folder</label>
                 <input id="name" class="form-control" type="text">
-                <!-- <label for="">Name of Models</label>
-                <input id="models" class="form-control" type="text" placeholder="NOT WORKING,COMING SOON"> -->
-                <button class="btn btn-dark" onclick="BuildProject()">1.Create</button>
+                <button class="btn btn-dark" id="createbtn" onclick="BuildProject()">1.Create</button>
                 <button class="btn btn-dark" id="buildbtn" onclick="Build()" disabled>2.Build</button>
             </div>
             <div class="card">
@@ -131,13 +110,13 @@
                 <label for="">Service Name</label>
                 <input id="service-name" class="form-control" type="text">
                 <button class="btn btn-dark" id="servicebtn" onclick="AddService()" disabled>3.Add Service</button>
-                <button class="btn btn-dark" id="filebtn" onclick="AddFiles()" disabled>Add Files</button>
+                <button class="btn btn-dark" id="filebtn" onclick="AddFiles()" disabled>4.Add Files</button>
 
             </div>
             <div class="card">
                 <label for="">Component Name</label>
                 <input id="component-name" class="form-control" type="text">
-                <button class="btn btn-dark" id="componentbtn" onclick="AddComponent()" disabled>4.Add Component</button>
+                <button class="btn btn-dark" id="componentbtn" onclick="AddComponent()" disabled>5.Add Component</button>
             </div>
             <div class="card">
                 <label for="">Zip Projects</label>
@@ -145,11 +124,8 @@
                 <!-- <button class="btn btn-dark" id="zipbtn" onclick="test()" >Testing</button> -->
                 <a href=""></a>
                 <p style="text-align: center;"> <i> You may need <a href="https://www.7-zip.org/a/7za920.zip">7zip</a> and add it to environment paths</i></p>
-
             </div>
-
         </div>
-
     </div>
     <script>
         const exec = require('child_process').exec;
@@ -160,10 +136,6 @@
         document.getElementById("name").value = store.get('foldername')
 
         // function test(){
-        //     var installed = __dirname;
-        //     var dir = document.getElementById("dir").value
-        //     var name = document.getElementById("name").value
-        //     shell.cp('-fR', installed + '/BOIL/srcApp/', dir + "/" + name+"/public/src/app");
         // }
       
 
@@ -181,6 +153,8 @@
             shell.cp('-R', installed + '/BOIL/app.js', dir + "/" + name);
             shell.cp('-R', installed + '/BOIL/server.js', dir + "/" + name);
             document.getElementById('progress-bar').style.setProperty("--width", "25")
+            document.getElementById('createbtn').setAttribute("disabled",true)
+
             exec('npm init -y', function (code, output) {
                 console.log('Exit code:', code);
                 console.log('Program output:', output);
