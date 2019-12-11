@@ -139,6 +139,7 @@
         </div>
     </div>
     <script>
+        const path = require('path')
         const exec = require('child_process').exec;
         const Store = require('electron-store');
         const store = new Store()
@@ -247,10 +248,11 @@
             });
         }
         function AddFiles(){
-            var installed = __dirname;
+            var installed = store.get('boilpath')
             var dir = document.getElementById("dir").value
             var name = document.getElementById("name").value
             shell.cp('-fR', installed + '/BOIL/srcApp/', dir + "/" + name+"/public/src/app");
+            alert("Added Files")
             document.getElementById('activity').innerHTML += "<li class='list-group-item'>Added File Folder</li>"
         }
 
@@ -270,7 +272,7 @@
         function ZipUp() {
             var dir = document.getElementById("dir").value
             var name = document.getElementById("name").value
-            exec("7za.exe a " + dir + "/" + name + ".zip " + dir + "/" + name + " -mx0 -xr!node_modules", function (code, output) {
+            exec("7za.exe a " + dir + "/" + name + ".zip " + dir + "/" + name + " -mx3 -xr!node_modules", function (code, output) {
                 console.log('Exit code:', code);
                 console.log('Program output:', output);
                 alert("Zipped")
